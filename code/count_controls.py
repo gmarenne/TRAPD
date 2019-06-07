@@ -171,7 +171,8 @@ def extractcounts(pops, vcfline, max_ac, max_af, popmax_af,min_an):
 						hom_out=hom_out+num_convert(hom_temp, 0)
 		elif options.database=="generic":
 			if options.homcol is not None:
-				hom_out=(";"+vcfline).split((options.homcol))[1].split(";")[0].split(",")[0]
+				homcol=options.homcol.lower()
+				hom_out=(";"+vcfline).split((homcol+"="))[1].split(";")[0].split(",")[0]
 			else:
 				hom_out=0
 			hom_out=num_convert(hom_out, 0)
