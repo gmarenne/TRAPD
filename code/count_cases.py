@@ -121,13 +121,12 @@ def calculatecount(genesnps, snptable):
 			het_index=het_index+snptable[tempsnp][1]
 	                hom_index=hom_index+snptable[tempsnp][2]
 			total_ac=total_ac+snptable[tempsnp][3]
-	all_index=het_index+hom_index
 			
 	#Generate number of individuals carrying one variant
-        count_het=len(set([x for x in all_index if all_index.count(x) > 0]))
-	count_ch=len(set([x for x in het_index if het_index.count(x) > 1]))
-        count_hom=len(list(set(hom_index)))
-	return [count_het, count_ch, count_hom, total_ac]
+        hom_index_unique=list(set(hom_index))
+        ch_index_unique=list(set([x for x in het_index if het_index.count(x) > 1 and x not in hom_index_unique]))
+        het_index_unique=list(set([x for x in het_index if het_index.count(x) > 0 and x not in hom_index_unique and x not in ch_index_unique]))
+        return [ len(het_index_unique) , len(ch_index_unique) , len(hom_index_unique) , total_ac ]
 
 #Make list of all SNPs across all genes present in snpfile
 allsnplist=makesnplist(options.snpfilename)
